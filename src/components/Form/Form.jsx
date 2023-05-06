@@ -26,6 +26,7 @@ const Form = () => {
       case 'number':
         setNumber(value);
       default:
+        null;
     }
   };
 
