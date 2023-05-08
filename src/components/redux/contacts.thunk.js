@@ -18,8 +18,7 @@ export const deleteContactsThunk = createAsyncThunk(
     axios.delete(
       `https://645675fa5f9a4f236144c964.mockapi.io/contacts/${contactId}`
     );
-    return  contactId;
-    
+    return contactId;
   }
 );
 

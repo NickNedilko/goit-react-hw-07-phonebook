@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import css from './Form.module.css';
 import { nanoid } from 'nanoid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContactsThunk } from 'components/redux/contacts.thunk';
+import { contactsSelector } from 'components/redux/selectors';
 
 const Form = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const contacts = useSelector(contactsSelector)
 
   const inputNameId = nanoid();
   const inputNumberId = nanoid();
@@ -30,6 +31,10 @@ const Form = () => {
   const formSubmit = e => {
     e.preventDefault();
     const formData = { name, phone, id: nanoid() };
+    const normalizedName = formData.name.toLowerCase();
+    if(contacts.find(contact=>contact.name.toLowerCase()===normalizedName)){
+      return alert('adsgfbdghjgdsffcghj')
+    }
     formReset();
     dispath(addContactsThunk(formData));
   };
@@ -78,12 +83,5 @@ const Form = () => {
 };
 
 
-Form.propTypes = {
-  name: PropTypes.string,
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  id: PropTypes.string,
-  number: PropTypes.string,
-};
 
 export default Form;

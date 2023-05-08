@@ -6,19 +6,35 @@ import {
   getContactsThunk,
   deleteContactsThunk,
 } from 'components/redux/contacts.thunk';
+import { contactsSelector, filterSelector } from 'components/redux/selectors';
 
 const Contacts = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  console.log(contacts)
+  const contacts = useSelector(contactsSelector);
+  const filter = useSelector(filterSelector);
+  
 
   useEffect(() => {
     dispatch(getContactsThunk());
   }, [dispatch]);
 
+  const filterContact = () => {
+    if (filter === ''){
+      return contacts;
+    }
+     const data = contacts?.filter(contact =>
+      contact.name.toLowerCase().includes(filter?.toLowerCase())
+      );
+      return data;
+    };
+    
+   const filterContacts = filterContact();
+    
+
+
   return (
     <ul className={css.contactsList}>
-      {contacts?.map(({ name, id, phone }) => {
+      {filterContacts?.map(({ name, id, phone }) => {
         return (
           <li key={id} className={css.item}>
             <span>
